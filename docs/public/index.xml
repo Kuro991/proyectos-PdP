@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>My New Hugo Site</title>
+    <title>Proyectos Paradigmas de Programacion</title>
     <link>http://localhost:1313/</link>
-    <description>Recent content on My New Hugo Site</description>
+    <description>Recent content on Proyectos Paradigmas de Programacion</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 20 Feb 2026 17:36:54 -0800</lastBuildDate>
@@ -13,7 +13,7 @@
       <link>http://localhost:1313/practica0/</link>
       <pubDate>Fri, 20 Feb 2026 17:36:54 -0800</pubDate>
       <guid>http://localhost:1313/practica0/</guid>
-      <description>&lt;h2 id=&#34;subsecciones&#34;&gt;Subsecciones&lt;/h2&gt;&#xA;&lt;h2 id=&#34;descripcion-de-la-practica&#34;&gt;Descripcion de la practica&lt;/h2&gt;&#xA;&lt;h2 id=&#34;desarrollo-de-la-practica&#34;&gt;Desarrollo de la practica&lt;/h2&gt;&#xA;&lt;h2 id=&#34;conclusiones&#34;&gt;Conclusiones&lt;/h2&gt;</description>
+      <description>&lt;h1 id=&#34;subsecciones&#34;&gt;Subsecciones&lt;/h1&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Descripcion de la practica&lt;/li&gt;&#xA;&lt;li&gt;Desarrollo de la practica&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Sesion 1&lt;/li&gt;&#xA;&lt;li&gt;Sesion 2&lt;/li&gt;&#xA;&lt;li&gt;Sesion 3&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;Conclusiones&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h1 id=&#34;descripcion-de-la-practica&#34;&gt;Descripcion de la practica&lt;/h1&gt;&#xA;&lt;p&gt;Primera sesión.&#xA;Sintaxis y uso de markdown. Crear un reporte de que es Markdown, cómo se utiliza, y su sintaxis.&lt;/p&gt;&#xA;&lt;p&gt;Segunda sesión.&#xA;Uso de Git y GitHub. Añadir al reporte que es Git y Github, como se utiliza, comandos escenciales para usar Git y subir la información a Github, como crear un repositorio y suben su información a la nube.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
