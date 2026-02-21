@@ -260,3 +260,7 @@ El aprendizaje de Git y GitHub introdujo el concepto de control de versiones, pe
 La integracion de Hugo y GitHub Actions permitio combinar documentacion y automatizacion para generar y publicar un sitio web estatico. Este proceso mostro como las herramientas modernas permiten transformar archivos Markdown en paginas web profesionales, automatizando su despliegue.
 
 El resultado de la pracica: un repositorio en GitHub, un sitio publicado en GitHub pages representan un primer paso en la construccion de un portafolio profesional que podra ampliarse a lo largo de la formacion academica y profesional.
+
+[Repositorio/Portafolio de GitHub](https://github.com/Kuro991/proyectos-PdP)
+
+[Pagina estatica en GitHub Pages](https://kuro991.github.io/proyectos-PdP/)
