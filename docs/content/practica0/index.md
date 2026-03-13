@@ -4,6 +4,9 @@ draft = false
 title = 'Practica 0: Manejo de repositorios'
 +++
 
+
+# Practica 0: Manejo de repositorios
+
 # Subsecciones
 - Descripcion de la practica
 - Desarrollo de la practica

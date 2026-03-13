@@ -1,20 +1,21 @@
 #include <stdio.h>
 #include <string.h>
-#include "ventanas.h"
 
-typedef enum prioridad{
+#define MAX_JOBS 10
+
+typedef enum{
     normal,
     urgente
 }prioridad;
 
-typedef enum estado{
+typedef enum{
     encola,
     imprimiendo,
     completado,
     cancelado
 }estado;
 
-typedef struct trabajo{
+typedef struct{
     int id;
     char usuario[32];
     char documento[42];
@@ -23,145 +24,188 @@ typedef struct trabajo{
     int copias;
     prioridad prioridad;
     estado estado;
-} trabajo;
+}trabajo;
 
-typedef struct cola{
-    trabajo trabajos[10];
-    int frente;
-    int final;
+typedef struct{
+    trabajo data[MAX_JOBS];
+    int size;
     int idCounter;
-} cola;
+}cola;
 
-void qInit(cola *c);
-void qIsEmpty(cola *c);
-void qIsFull(cola *c);
-void newJob(cola *c);
-void qEnQueue(cola *c, trabajo nuevo);
-void qDeQueue(cola *c);
-void qPeek(cola *c);
-void qPrint(cola *c);
+
+void qs_init(cola *q);
+int qs_is_empty(const cola *q);
+int qs_is_full(const cola *q);
+int qs_enqueue(cola *q, trabajo job);
+int qs_peek(const cola *q, trabajo *out);
+int qs_dequeue(cola *q, trabajo *out);
+void qs_print(const cola *q);
+void newJob(cola *q);
 void menu();
 
-void main(){
+int main(){
 
+    cola impresora;
+    qs_init(&impresora);
 
+    int opcion;
 
+    do{
 
-}
+        menu();
+        printf("Seleccione una opcion: ");
+        scanf("%d",&opcion);
 
-void qInit(){
-    cola c;
-    c.frente = 0;
-    c.final = 0;
-    c.idCounter = 0;
-    return c;
-}
+        switch(opcion){
 
-void qIsEmpty(cola *c){
-    if(c->frente == c->final){
-        printf("La cola está vacía.\n");
-    } else {
-        printf("La cola no está vacía.\n");
-    }
-}
+            case 1:
+                newJob(&impresora);
+                break;
 
-void qIsFull(cola *c){
-    if(c->final == 10){
-        printf("La cola está llena.\n");
-    } else {
-        printf("La cola no está llena.\n");
-    }
-}
+            case 2:{
+                trabajo t;
+                if(qs_dequeue(&impresora,&t))
+                    printf("Trabajo eliminado ID %d\n",t.id);
+                else
+                    printf("La cola esta vacia\n");
+                break;
+            }
 
-void newJob(cola *c){
-    if (c->final < 10)
-    {
-        trabajo nuevo;
-        nuevo.id = c->idCounter++;
-        printf("Ingrese el nombre del usuario: ");
-        scanf("%s", nuevo.usuario);
-        printf("Ingrese el nombre del documento: ");
-        scanf("%s", nuevo.documento);
-        printf("Ingrese el número total de páginas: ");
-        scanf("%d", &nuevo.totalpgs);
-        printf("Ingrese el número de copias: ");
-        scanf("%d", &nuevo.copias);
-        printf("Ingrese la prioridad (0 para normal, 1 para urgente): ");
-        int p;
-        scanf("%d", &p);
-        nuevo.prioridad = (p == 0) ? normal : urgente;
-        nuevo.estado = encola;
-        qEnqueue(c, nuevo);
-    } else {
-        printf("No se pueden agregar más trabajos, la cola está llena.\n");
-    }
-    
-}
+            case 3:{
+                trabajo t;
+                if(qs_peek(&impresora,&t))
+                    printf("Frente: %s (%s)\n",t.usuario,t.documento);
+                else
+                    printf("La cola esta vacia\n");
+                break;
+            }
 
-void qEnQueue(cola *c, trabajo nuevo){
-    if (c->final < 10)
-    {
-        c->trabajos[c->final] = nuevo;
-        c->final++;
-    } else {
-        printf("No se pueden agregar más trabajos, la cola está llena.\n");
-    }
-}
+            case 4:
+                qs_print(&impresora);
+                break;
 
-void qDeQueue(cola *c){
-    if (c->frente < c->final)
-    {
-        for (int i = c->frente; i < c->final - 1; i++)
-        {
-            c->trabajos[i] = c->trabajos[i + 1];
         }
-        c->final--;
-    } else {
-        printf("No se pueden eliminar trabajos, la cola está vacía.\n");
+
+    }while(opcion!=5);
+
+    return 0;
+}
+
+void qs_init(cola *q){
+    q->size=0;
+    q->idCounter=1;
+}
+
+int qs_is_empty(const cola *q){
+    return q->size==0;
+}
+
+int qs_is_full(const cola *q){
+    return q->size==MAX_JOBS;
+}
+
+int qs_enqueue(cola *q, trabajo job){
+
+    if(qs_is_full(q))
+        return 0;
+
+    q->data[q->size]=job;
+    q->size++;
+
+    return 1;
+}
+
+int qs_peek(const cola *q, trabajo *out){
+
+    if(qs_is_empty(q))
+        return 0;
+
+    *out=q->data[0];
+    return 1;
+}
+
+int qs_dequeue(cola *q, trabajo *out){
+
+    if(qs_is_empty(q))
+        return 0;
+
+    *out=q->data[0];
+
+    for(int i=1;i<q->size;i++)
+        q->data[i-1]=q->data[i];
+
+    q->size--;
+
+    return 1;
+}
+
+void qs_print(const cola *q){
+
+    if(qs_is_empty(q)){
+        printf("La cola esta vacia\n");
+        return;
+    }
+
+    printf("\n--- COLA DE IMPRESION ---\n");
+
+    for(int i=0;i<q->size;i++){
+
+        trabajo t=q->data[i];
+
+        printf("ID: %d\n",t.id);
+        printf("Usuario: %s\n",t.usuario);
+        printf("Documento: %s\n",t.documento);
+        printf("Paginas: %d\n",t.totalpgs);
+        printf("Copias: %d\n",t.copias);
+        printf("Prioridad: %s\n",t.prioridad==normal?"Normal":"Urgente");
+
+        printf("\n");
     }
 }
 
-void qPeek(cola *c){
-    if (c->frente < c->final)
-    {
-        printf("Trabajo en la cima de la cola:\n");
-        printf("ID: %d\n", c->trabajos[c->frente].id);
-        printf("Usuario: %s\n", c->trabajos[c->frente].usuario);
-        printf("Documento: %s\n", c->trabajos[c->frente].documento);
-        printf("Total páginas: %d\n", c->trabajos[c->frente].totalpgs);
-        printf("Copias: %d\n", c->trabajos[c->frente].copias);
-        printf("Prioridad: %s\n", (c->trabajos[c->frente].prioridad == normal) ? "Normal" : "Urgente");
-        printf("Estado: %s\n", (c->trabajos[c->frente].estado == encola) ? "En cola" : (c->trabajos[c->frente].estado == imprimiendo) ? "Imprimiendo" : (c->trabajos[c->frente].estado == completado) ? "Completado" : "Cancelado");
-    } else {
-        printf("La cola está vacía.\n");
-    }
-}
+void newJob(cola *q){
 
-void qPrint(cola *c){
-    if (c->frente < c->final)
-    {
-        printf("Trabajos en la cola:\n");
-        for (int i = c->frente; i < c->final; i++)
-        {
-            printf("ID: %d\n", c->trabajos[i].id);
-            printf("Usuario: %s\n", c->trabajos[i].usuario);
-            printf("Documento: %s\n", c->trabajos[i].documento);
-            printf("Total páginas: %d\n", c->trabajos[i].totalpgs);
-            printf("Copias: %d\n", c->trabajos[i].copias);
-            printf("Prioridad: %s\n", (c->trabajos[i].prioridad == normal) ? "Normal" : "Urgente");
-            printf("Estado: %s\n", (c->trabajos[i].estado == encola) ? "En cola" : (c->trabajos[i].estado == imprimiendo) ? "Imprimiendo" : (c->trabajos[i].estado == completado) ? "Completado" : "Cancelado");
-            printf("\n");
-        }
-    } else {
-        printf("La cola está vacía.\n");
+    if(qs_is_full(q)){
+        printf("Cola llena\n");
+        return;
     }
+
+    trabajo nuevo;
+
+    nuevo.id=q->idCounter++;
+
+    printf("Usuario: ");
+    scanf("%s",nuevo.usuario);
+
+    printf("Documento: ");
+    scanf("%s",nuevo.documento);
+
+    printf("Total paginas: ");
+    scanf("%d",&nuevo.totalpgs);
+
+    nuevo.restantepgs=nuevo.totalpgs;
+
+    printf("Copias: ");
+    scanf("%d",&nuevo.copias);
+
+    int p;
+    printf("Prioridad (0 normal / 1 urgente): ");
+    scanf("%d",&p);
+
+    nuevo.prioridad = p?urgente:normal;
+    nuevo.estado = encola;
+
+    if(qs_enqueue(q,nuevo))
+        printf("Trabajo agregado\n");
 }
 
 void menu(){
-    printf("Menú de opciones:\n");
-    printf("1. Agregar nuevo trabajo\n");
-    printf("2. Eliminar trabajo en la cima de la cola\n");
-    printf("3. Ver trabajo en la cima de la cola\n");
-    printf("4. Imprimir todos los trabajos en la cola\n");
+
+    printf("\n--- MENU ---\n");
+    printf("1. Agregar trabajo\n");
+    printf("2. Eliminar trabajo\n");
+    printf("3. Ver frente\n");
+    printf("4. Mostrar cola\n");
     printf("5. Salir\n");
+
 }
