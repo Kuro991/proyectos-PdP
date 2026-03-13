@@ -1,6 +1,6 @@
 +++
 date = '2026-03-13T17:36:54-08:00'
-draft = true
+draft = false
 title = 'Practica 1: Cola de impresion en lenguaje C'
 +++
 
