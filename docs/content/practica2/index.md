@@ -1,6 +1,6 @@
 +++
 date = '2026-03-13T00:00:00-08:00'
-draft = true
+draft = false
 title = 'Practica 2: Programacion orientada a objetos. Simulador de estacionamiento'
 +++
 
