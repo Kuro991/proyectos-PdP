@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Dashboard</h2>
+
+<p><b>Libres:</b> {{ free }}</p>
+<p><b>Ocupados:</b> {{ occupied }}</p>
+
+<h3>Tickets Activos</h3>
+<ul>
+{% for t in tickets %}
+    <li>
+        Ticket #{{ t.id }} |
+        {{ t.vehicle.plates }} |
+        {{ t.vehicle.get_type() }} |
+        Spot {{ t.spot.id }}
+    </li>
+{% else %}
+    <li>No hay tickets activos</li>
+{% endfor %}
+</ul>
+
+<hr>
+
+<h3>Mapa del Estacionamiento</h3>
+
+<table border="1" cellpadding="10">
+<tr>
+    <th>ID</th>
+    <th>Tipo</th>
+    <th>Estado</th>
+</tr>
+
+{% for s in spots %}
+<tr>
+    <td>{{ s.id }}</td>
+    <td>{{ s.allowed_type }}</td>
+    <td class="{% if s.is_occupied %}ocupado{% else %}libre{% endif %}">
+        {% if s.is_occupied %}
+            🔴 Ocupado
+        {% else %}
+            🟢 Libre
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+
+<h3>Historial</h3>
+<ul>
+{% for t in history %}
+    <li>
+        Ticket #{{ t.id }} - {{ t.vehicle.plates }}        
+        {{ t.vehicle.plates }} |
+        {{ t.vehicle.get_type() }} |
+        Tiempo: {{ t.hours }}h |
+        Costo: ${{ t.cost }}
+    </li>
+{% else %}
+    <li>No hay historial</li>
+{% endfor %}
+</ul>
+{% endblock %}

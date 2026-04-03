@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Salida registrada</h2>
+
+<p><b>Ticket:</b> #{{ ticket.id }}</p>
+<p><b>Vehículo:</b> {{ ticket.vehicle.plates }}</p>
+<p><b>Tipo:</b> {{ ticket.vehicle.get_type() }}</p>
+<p><b>Tiempo:</b> {{ ticket.hours }} horas</p>
+<p><b>Costo:</b> ${{ ticket.cost }}</p>
+<p><b>Spot liberado:</b> {{ ticket.spot.id }}</p>
+
+<a href="/">Volver al dashboard</a>
+{% endblock %}

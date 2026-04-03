@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Registrar Salida</h2>
+
+<form method="POST">
+    <label>ID Ticket:</label>
+    <input type="number" name="ticket_id" required><br><br>
+
+    <label>Horas:</label>
+    <input type="number" name="hours" required><br><br>
+
+    <button type="submit">Registrar salida</button>
+</form>
+{% endblock %}
